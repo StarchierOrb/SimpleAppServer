@@ -11,7 +11,7 @@ def build_number = versionProps['build_number'].toInteger() + 1
 def version_type = versionProps['version_type']
 group 'me.starchier'
 if (System.getenv().BUILD_NUMBER != null) {
-    version version_main + '.b' + ".${System.getenv().BUILD_NUMBER}" +'-' + version_type
+    version version_main + "-build${System.getenv().BUILD_NUMBER}" +'-' + version_type
 } else {
     version version_main + '.b' + build_number +'-' + version_type
 }
