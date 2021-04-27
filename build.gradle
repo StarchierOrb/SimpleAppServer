@@ -10,7 +10,11 @@ def version_main = versionProps['version_main']
 def build_number = versionProps['build_number'].toInteger() + 1
 def version_type = versionProps['version_type']
 group 'me.starchier'
-version version_main + '.b' + build_number +'-' + version_type
+if (System.getenv().BUILD_NUMBER != null) {
+    version version_main + '.b' + ".${System.getenv().BUILD_NUMBER}" +'-' + version_type
+} else {
+    version version_main + '.b' + build_number +'-' + version_type
+}
 repositories {
     maven {
         name = 'aliyun-public'
