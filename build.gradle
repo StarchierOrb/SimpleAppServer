@@ -44,7 +44,7 @@ task incrementBuildNumber {
         buildNum++
         versionProps['build_number'] = buildNum.toString()
         versionProps.store(versionFile.newWriter(), null)
-        def versionFileDir = projectDir.getAbsolutePath() + '\\src\\main\\java\\me\\starchier\\ServerMain.java'
+        def versionFileDir = projectDir.getAbsolutePath() + '/src/main/java/me/starchier/ServerMain.java'
         def oldVersionStr = findOldVersionStr(versionFileDir)
         def newVersionStr = "    public static final String VERSION = \"" + version_main + '.b' + buildNum +'-' + version_type + "\";"
         def updatedContent = new File(versionFileDir).getText('UTF-8').replaceAll(oldVersionStr, newVersionStr)
