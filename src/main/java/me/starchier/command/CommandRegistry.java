@@ -23,10 +23,6 @@ public class CommandRegistry {
                         getLogger().info(sb.toString());
                         return true;
                     }
-                    @Override
-                    public void onInit() {
-                        CommandRegister.setCompleter(new ArgumentCompleter(new StringsCompleter("test"), new StringsCompleter("test2")));
-                    }
                 }
         };
         CommandRegister.register(Arrays.asList(executors));
