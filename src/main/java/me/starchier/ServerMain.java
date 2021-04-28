@@ -18,14 +18,15 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 public class ServerMain {
-    public static final String VERSION = "1.0.b42-SNAPSHOT";
+    public static final String VERSION = "1.0.46-DEV-SNAPSHOT";
     public static final String NAME = "SmartApp-Server";
     private static final Logger getLogger = LogManager.getLogger("ServerMain");
     private static final String prompt = ">";
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
         getLogger.info("正在启动服务端，请稍等...");
-        getLogger.info("当前正在运行 " + NAME + " 版本： " + VERSION + " (" + VersionCheck.check() + ")");
+        getLogger.info("当前正在运行 " + NAME + " 版本： " + VERSION + " (" + VersionCheck.check() + ")" +
+                "  构建版本： " + VersionCheck.getBuildNumber());
         Terminal terminal;
         LineReader lineReader = null;
         //注册指令

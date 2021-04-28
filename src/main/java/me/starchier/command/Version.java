@@ -10,7 +10,8 @@ public class Version extends CommandExecutor {
     }
     @Override
     public boolean execute(String[] args) {
-        getLogger().info("当前正在运行服务端 " + ServerMain.NAME + " 版本： " + ServerMain.VERSION + " (" + VersionCheck.check() + ")");
+        getLogger().info("当前正在运行服务端 " + ServerMain.NAME + " 版本： " + ServerMain.VERSION + " (" + VersionCheck.check() + ")" +
+                "  构建版本： " + VersionCheck.getBuildNumber());
         return true;
     }
     @Override

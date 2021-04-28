@@ -2,7 +2,7 @@
 <Configuration status="INFO">
 <Appenders>
 <Console name="Console" target="SYSTEM_OUT">
-<PatternLayout pattern="%highlight{[%d{HH:mm:ss}][%t/%-3level][%logger{36}]: %msg%n}{ERROR=red, WARN=yellow, INFO=white, DEBUG=green, TRACE=cyan}"/>
+<PatternLayout pattern="%highlight{[%d{HH:mm:ss}][%t/%-3level][%logger{36}]: %msg%n}{ERROR=bright red, FATAL=red, WARN=bright yellow, INFO=white, DEBUG=bright green, TRACE=cyan}"/>
 </Console>
     <RollingRandomAccessFile name="File" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">
         <PatternLayout pattern="[%d{HH:mm:ss}][%t/%level][%logger]: %msg%n"/>

@@ -11,9 +11,9 @@ def build_number = versionProps['build_number'].toInteger() + 1
 def version_type = versionProps['version_type']
 group 'me.starchier'
 if (System.getenv().BUILD_NUMBER != null) {
-    version version_main + "-build${System.getenv().BUILD_NUMBER}" +'-' + version_type
+    version version_main + '.' + build_number + "-build${System.getenv().BUILD_NUMBER}" +'-' + version_type
 } else {
-    version version_main + '.b' + build_number +'-' + version_type
+    version version_main + '.' + build_number +'-' + version_type
 }
 repositories {
     maven {
@@ -50,7 +50,12 @@ task incrementBuildNumber {
         versionProps.store(versionFile.newWriter(), null)
         def versionFileDir = projectDir.getAbsolutePath() + '/src/main/java/me/starchier/ServerMain.java'
         def oldVersionStr = findOldVersionStr(versionFileDir)
-        def newVersionStr = "    public static final String VERSION = \"" + version_main + '.b' + buildNum +'-' + version_type + "\";"
+        def newVersionStr
+        if (System.getenv().BUILD_NUMBER != null) {
+            newVersionStr = "    public static final String VERSION = \"" + version_main + '.' + buildNum + "-build${System.getenv().BUILD_NUMBER}" +'-' + version_type + "\";"
+        } else {
+            newVersionStr = "    public static final String VERSION = \"" + version_main + '.' + buildNum +'-DEV-' + version_type + "\";"
+        }
         def updatedContent = new File(versionFileDir).getText('UTF-8').replaceAll(oldVersionStr, newVersionStr)
         new File(versionFileDir).write(updatedContent, 'UTF-8')
     }
