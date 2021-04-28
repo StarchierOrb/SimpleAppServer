@@ -1,4 +1,4 @@
-# SmartApp-Server [![build status](http://8.129.129.136:8099/applink/smartapp-server/badges/master/build.svg)](http://8.129.129.136:8099/applink/smartapp-server/commits/master)
+# SmartApp-Server [![build status](http://8.129.129.136:8099/applink/smartapp-server/badges/master/build.svg)](http://8.129.129.136:8080/job/SmartApp-server/)
 SmartApp的服务端程序，用于处理用户数据、通过socket与安装客户端连接。
 代码是一座大屎山，估计人多性能会暴毙。
 也许有哪个高人学习了算法和架构的帮忙改进一下。
