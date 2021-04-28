@@ -13,7 +13,7 @@ public class CommandExecutor {
     }
     public boolean execute(String[] args) {
         IllegalStateException ex = new IllegalStateException("未定义的指令");
-        logger.warn("执行指令" + cmds[0] + "时发生错误：", ex);
+        logger.warn("执行指令 " + cmds[0] + " 时发生错误：", ex);
         return false;
     }
     public String getCommand() {
