@@ -14,6 +14,7 @@ public class CommandRegistry {
                 new ClientList("list"),
                 new Status("status"),
                 new DataSender("send"),
+                new ReloadConfiguration("reload"),
                 new CommandExecutor("print") {
                     @Override
                     public boolean execute(String[] args) {
