@@ -1,8 +1,6 @@
 package me.starchier.command.core;
 
 import me.starchier.api.command.CommandExecutor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
