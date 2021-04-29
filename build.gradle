@@ -50,13 +50,15 @@ task incrementBuildNumber {
         versionProps.store(versionFile.newWriter(), null)
         def versionFileDir = projectDir.getAbsolutePath() + '/src/main/java/me/starchier/ServerMain.java'
         def oldVersionStr = findOldVersionStr(versionFileDir)
+        def rootProjectName = findProjectNameStr(versionFileDir)
         def newVersionStr
         if (System.getenv().BUILD_NUMBER != null) {
             newVersionStr = "    public static final String VERSION = \"" + version_main + '.' + buildNum + "-build${System.getenv().BUILD_NUMBER}" +'-' + version_type + "\";"
         } else {
             newVersionStr = "    public static final String VERSION = \"" + version_main + '.' + buildNum +'-DEV-' + version_type + "\";"
         }
-        def updatedContent = new File(versionFileDir).getText('UTF-8').replaceAll(oldVersionStr, newVersionStr)
+        def projectName = "    public static final String NAME = \"" + rootProject.name + "\";"
+        def updatedContent = new File(versionFileDir).getText('UTF-8').replaceAll(oldVersionStr, newVersionStr).replaceAll(rootProjectName, projectName)
         new File(versionFileDir).write(updatedContent, 'UTF-8')
     }
 }
@@ -73,6 +75,18 @@ static def findOldVersionStr(path) {
     new File(path).withReader('UTF-8') { reader ->
         reader.eachLine {
             if (it.contains("public static final String VERSION")) {
+                readerString <<= it
+                return readerString
+            }
+        }
+        return readerString
+    }
+}
+static def findProjectNameStr(path) {
+    def readerString = "";
+    new File(path).withReader('UTF-8') { reader ->
+        reader.eachLine {
+            if (it.contains("public static final String NAME")) {
                 readerString <<= it
                 return readerString
             }
