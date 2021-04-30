@@ -1,8 +1,11 @@
 package me.starchier.websocket;
 
+import me.starchier.json.JsonStatic;
+import me.starchier.json.objects.MessageBack;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.java_websocket.WebSocket;
+import org.java_websocket.framing.CloseFrame;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
@@ -31,6 +34,13 @@ public class SocketServer extends WebSocketServer {
     public void onMessage(WebSocket conn, String message) {
         logger.trace("接收到客户端 " + getAddressWithPort(conn) + " 发送数据。");
         logger.trace("数据内容：" + message);
+        if(message.contains("\"actionType\": ")) {
+
+        } else {
+            MessageBack msg = new MessageBack(0, "数据包格式错误，即将中断连接。");
+            conn.send(JsonStatic.gson.toJson(msg));
+            conn.close(CloseFrame.UNEXPECTED_CONDITION, "数据包格式错误");
+        }
         conn.send("received.");
         //TODO Handling Message
     }
