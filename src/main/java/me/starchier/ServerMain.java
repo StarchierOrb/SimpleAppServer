@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 public class ServerMain {
-    public static final String VERSION = "1.0.107-DEV-SNAPSHOT";
+    public static final String VERSION = "1.0.109-DEV-SNAPSHOT";
     public static final String NAME = "SmartApp-Server";
     private static final Logger getLogger = LogManager.getLogger("ServerMain");
     private static final String prompt = ">";
@@ -84,22 +84,19 @@ public class ServerMain {
             try {
                 assert lineReader != null;
                 line = lineReader.readLine(prompt);
-                switch (line) {
-                    case "stop": {
-                        getLogger.info("正在停止服务器...");
-                        stop();
-                        getLogger.info("感谢使用.");
-                        return;
-                    }
-                    default: {
-                        try {
-                            if(!CommandBase.execute(line)) {
-                                getLogger.info("未知的指令，输入 help 来查看指令帮助。");
-                            }
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                        } catch (Exception e) {
-                            getLogger.error("发生错误：", e);
+                if ("stop".equals(line)) {
+                    getLogger.info("正在停止服务器...");
+                    stop();
+                    getLogger.info("感谢使用.");
+                    return;
+                } else {
+                    try {
+                        if (!CommandBase.execute(line)) {
+                            getLogger.info("未知的指令，输入 help 来查看指令帮助。");
                         }
+                    } catch (ArrayIndexOutOfBoundsException ignored) {
+                    } catch (Exception e) {
+                        getLogger.error("发生错误：", e);
                     }
                 }
             } catch (UserInterruptException e) {
@@ -114,7 +111,7 @@ public class ServerMain {
     public static void stop() {
         getLogger.info("正在断开所有与客户端的连接...");
         for(WebSocket client : socketServer.getConnections()) {
-            getLogger.info("正在断开客户端 " + client.getRemoteSocketAddress().getAddress());
+            getLogger.info("正在断开客户端 " + client.getRemoteSocketAddress().getAddress() + ":" + client.getRemoteSocketAddress().getPort());
             client.closeConnection(CloseFrame.SERVICE_RESTART, "服务器已关闭。");
         }
         getLogger.info("正在结束WebSocket服务端...");
