@@ -1,31 +1,30 @@
 package me.starchier.configuration;
 
-import me.starchier.ServerMain;
-import org.yaml.snakeyaml.Yaml;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.simpleyaml.configuration.file.YamlFile;
+import org.simpleyaml.exceptions.InvalidConfigurationException;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.IOException;
 
 public class YamlConfiguration {
-    private String configPath;
-    private ConfigObject configObject = null;
-    private final Yaml yaml = new Yaml();
-    public YamlConfiguration() {
-
-    }
-    public YamlConfiguration(String configPath) {
-        this.configPath = configPath;
-    }
-    public void loadConfig() {
-        FileInputStream fileInputStream = null;
+    private static YamlFile config;
+    private static final Logger logger = LogManager.getLogger(YamlConfiguration.class.getName());
+    public static void loadConfig() {
+        config = new YamlFile(System.getProperty("user.dir") + File.separator + "config.yml");
         try {
-            fileInputStream = new FileInputStream(ServerMain.config);
-        } catch (FileNotFoundException ignored) {
+            config.load();
+        } catch (InvalidConfigurationException e) {
+            logger.warn("加载配置文件时出错（无效配置文件）: ", e);
+        } catch (IOException e) {
+            logger.warn("加载配置文件时出错: ", e);
         }
-        configObject = yaml.load(fileInputStream);
     }
-    public ConfigObject getConfig() {
-        //TODO Need to fix
-        return configObject;
+    public static YamlFile getConfig() {
+        if(config == null) {
+            loadConfig();
+        }
+        return config;
     }
 }

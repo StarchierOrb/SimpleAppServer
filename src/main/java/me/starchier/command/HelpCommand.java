@@ -14,7 +14,7 @@ public class HelpCommand extends CommandExecutor {
         getLogger().info(help);
         getLogger().info("stop  -  关闭服务端");
         for(CommandExecutor executor : CommandRegister.getCommands()) {
-            getLogger().info(executor.getCommand() + "  -  " + executor.description());
+            getLogger().info(executor.getCommand() + " " + executor.usage() + " -  " + executor.description());
         }
         return true;
     }

@@ -25,5 +25,8 @@ public class CommandExecutor {
     public String description() {
         return "该指令没有提供相关帮助信息";
     }
+    public String usage() {
+        return null;
+    }
     public void onInit() {}
 }

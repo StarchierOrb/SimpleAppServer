@@ -28,6 +28,7 @@ public class CommandRegister {
         }
     }
     //设置命令补全
+    //TODO Broken function
     public static void setCompleter(Completer completer) {
         completers.add(completer);
     }

@@ -14,6 +14,7 @@ public class DataSender extends CommandExecutor {
         //TODO With user data.
         for(WebSocket client : ServerMain.socketServer.getConnections()) {
             getLogger().info(client.getResourceDescriptor());
+            client.sendPing();
         }
         return true;
     }

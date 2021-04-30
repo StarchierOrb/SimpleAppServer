@@ -24,4 +24,9 @@ public class Broadcast extends CommandExecutor {
     public String description() {
         return "向所有客户端广播消息";
     }
+
+    @Override
+    public String usage() {
+        return "<消息内容>";
+    }
 }
