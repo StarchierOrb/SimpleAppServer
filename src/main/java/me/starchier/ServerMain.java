@@ -4,6 +4,7 @@ import me.starchier.command.CommandRegistry;
 import me.starchier.command.core.CommandBase;
 import me.starchier.command.core.CommandRegister;
 import me.starchier.configuration.YamlConfiguration;
+import me.starchier.http.UndertowServer;
 import me.starchier.util.FileDrop;
 import me.starchier.util.VersionCheck;
 import me.starchier.websocket.SocketServer;
@@ -25,7 +26,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 public class ServerMain {
-    public static final String VERSION = "1.0.109-DEV-SNAPSHOT";
+    public static final String VERSION = "1.0.125-DEV-SNAPSHOT";
     public static final String NAME = "SmartApp-Server";
     private static final Logger getLogger = LogManager.getLogger("ServerMain");
     private static final String prompt = ">";
@@ -64,6 +65,17 @@ public class ServerMain {
             getLogger.fatal("服务端将会关闭，请检查配置文件。");
             return;
         }
+        //启动HTTP后台管理系统服务
+        getLogger.info("正在准备HTTP服务...");
+        new UndertowServer().start();
+        while(!UndertowServer.STATE) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                getLogger.error("启动服务端时发生错误: ", e);
+                System.exit(10);
+            }
+        }
         //启动WebSocket
         getLogger.info("正在启动WebSocket服务端...");
         socketServer = new SocketServer(cfg.getString("server-ip"), cfg.getInt("port"));
@@ -74,6 +86,7 @@ public class ServerMain {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
                 getLogger.error("启动服务端时发生错误: ", e);
+                System.exit(11);
             }
         }
         long finishTime = System.currentTimeMillis();
@@ -87,7 +100,6 @@ public class ServerMain {
                 if ("stop".equals(line)) {
                     getLogger.info("正在停止服务器...");
                     stop();
-                    getLogger.info("感谢使用.");
                     return;
                 } else {
                     try {
@@ -120,5 +132,9 @@ public class ServerMain {
         } catch (Exception interruptedException) {
             getLogger.error("结束WS服务端时发生错误：", interruptedException);
         }
+        getLogger.info("正在结束HTTP服务...");
+        UndertowServer.server.stop();
+        getLogger.info("感谢使用.");
+        System.exit(0);
     }
 }

@@ -14,7 +14,7 @@ public class YamlConfiguration {
     public static void loadConfig() {
         config = new YamlFile(System.getProperty("user.dir") + File.separator + "config.yml");
         try {
-            config.load();
+            config.loadWithComments();
         } catch (InvalidConfigurationException e) {
             logger.warn("加载配置文件时出错（无效配置文件）: ", e);
         } catch (IOException e) {
