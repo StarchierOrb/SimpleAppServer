@@ -2,6 +2,7 @@ package me.starchier.http.handlers;
 
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
+import io.undertow.util.Headers;
 import io.undertow.util.Methods;
 
 public class InitHandler implements HttpHandler {
@@ -29,6 +30,7 @@ public class InitHandler implements HttpHandler {
                 }
             }
         } else if(exchange.getRequestMethod().equals(Methods.POST)) {
+            exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/json");
             exchange.getResponseSender().send(exchange.getQueryString());
         }
     }

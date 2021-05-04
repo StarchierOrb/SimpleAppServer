@@ -29,8 +29,8 @@ public class FileDrop {
             System.exit(20);
         }
     }
-    public static void dropPanelFiles(InputStream inputStream, String resourceName) {
-        File config = new File(System.getProperty("user.dir") + File.separator + "panel" + File.separator + resourceName);
+    public static void dropResourceFile(InputStream inputStream, String resourceName) {
+        File config = new File(System.getProperty("user.dir") + File.separator + "panel" + File.separator + "sdk" + File.separator +  resourceName);
         try {
             config.createNewFile();
             OutputStream outputStream = new FileOutputStream(config);

@@ -9,7 +9,7 @@ import java.io.IOException;
 public class FileTransferCall implements IoCallback {
     @Override
     public void onComplete(HttpServerExchange exchange, Sender sender) {
-        exchange.setStatusCode(200);
+        exchange.endExchange();
     }
 
     @Override

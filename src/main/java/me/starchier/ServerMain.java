@@ -31,6 +31,7 @@ public class ServerMain {
     private static final Logger getLogger = LogManager.getLogger("ServerMain");
     private static final String prompt = ">";
     public static final File config = new File(System.getProperty("user.dir") + File.separator + "config.yml");
+    public static boolean isHttpEnabled;
     public static SocketServer socketServer;
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
@@ -67,6 +68,7 @@ public class ServerMain {
         }
         //启动HTTP后台管理系统服务
         getLogger.info("正在准备HTTP服务...");
+        isHttpEnabled = cfg.getBoolean("manage-panel.enabled", true);
         new UndertowServer().start();
         while(!UndertowServer.STATE) {
             try {
@@ -132,8 +134,10 @@ public class ServerMain {
         } catch (Exception interruptedException) {
             getLogger.error("结束WS服务端时发生错误：", interruptedException);
         }
-        getLogger.info("正在结束HTTP服务...");
-        UndertowServer.server.stop();
+        if(isHttpEnabled) {
+            getLogger.info("正在结束HTTP服务...");
+            UndertowServer.server.stop();
+        }
         getLogger.info("感谢使用.");
         System.exit(0);
     }

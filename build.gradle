@@ -32,6 +32,7 @@ dependencies {
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.1'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
     compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.14.1'
+    compile group: 'org.apache.commons', name: 'commons-compress', version: '1.20'
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
     implementation group: 'io.undertow', name: 'undertow-core', version: '2.2.7.Final'
     //compile group: 'org.yaml', name: 'snakeyaml', version: '1.26'
