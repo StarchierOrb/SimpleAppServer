@@ -4,3 +4,4 @@ manage-panel:
   enabled: true
   port: 8080
   host: 'localhost'
+  web-title: '服务器后台管理系统'

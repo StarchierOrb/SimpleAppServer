@@ -16,6 +16,7 @@ import java.io.IOException;
 public class UndertowServer extends Thread {
     private final Logger LOGGER = LogManager.getLogger(this.getName());
     public static boolean STATE = false;
+    public static String webTitle;
     public static Undertow server;
     private final String srcPath = System.getProperty("user.dir") + File.separator + "panel" + File.separator + "sdk.tar.gz";
     private final String destPath = System.getProperty("user.dir") + File.separator + "panel";
@@ -23,6 +24,10 @@ public class UndertowServer extends Thread {
     public void run() {
         YamlFile config = YamlConfiguration.getConfig();
         if(ServerMain.isHttpEnabled) {
+            webTitle = " - " + config.getString("manage-panel.web-title", "后台管理系统");
+            //加载网页资源
+            LOGGER.info("正在加载后台管理服务资源...");
+
             //下载文件
             try {
                 ResourceManager.dropResources();
