@@ -1,0 +1,37 @@
+{
+  "type": "page",
+  "title": "错误 500",
+  "body": [
+    {
+      "type": "alert",
+      "body": [
+        {
+          "type": "tpl",
+          "tpl": "<h1 class=\"fa-info-circle\">HTTP 500 错误</h1>\n<p>&nbsp;</p>\n<h3><span style=\"color: #000000;\">发生了内部错误，服务器目前无法处理您当前的请求，请稍候再试。</span></h3>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>",
+          "inline": false
+        },
+        {
+          "type": "button",
+          "label": "返回",
+          "actionType": "link",
+          "dialog": {
+            "title": "系统提示",
+            "body": "对你点击了"
+          },
+          "size": "lg",
+          "level": "success",
+          "block": true,
+          "icon": "fa fa-undo",
+          "tooltip": "回到主页",
+          "tooltipPlacement": "bottom",
+          "link": "/index"
+        }
+      ],
+      "level": "warning",
+      "className": "rounded-xl b-info r bg-warning text-white"
+    }
+  ],
+  "messages": {},
+  "subTitle": "发生了内部错误。",
+  "remark": "请求异常，导致服务器发生内部错误。"
+}

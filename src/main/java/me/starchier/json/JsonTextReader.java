@@ -3,10 +3,7 @@ package me.starchier.json;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class JsonTextReader {
     private final String jsonText;
@@ -19,9 +16,13 @@ public class JsonTextReader {
         InputStream inputStream = this.getClass().getResourceAsStream("/webpages/" + resourceName);
         BufferedReader bufferedReader = null;
         try {
-            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
         } catch (NullPointerException e) {
             LOGGER.error("无法读取JSON资源文件： ", e);
+            System.exit(20);
+        } catch (UnsupportedEncodingException e) {
+            LOGGER.error("无效编码： ", e);
+            System.exit(21);
         }
         StringBuilder sb = new StringBuilder();
         String line;

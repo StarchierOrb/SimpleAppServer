@@ -9,6 +9,7 @@ public class InitHandler implements HttpHandler {
     @Override
     public void handleRequest(HttpServerExchange exchange) throws Exception {
         if (exchange.getRequestMethod().equals(Methods.GET)) {
+            exchange.getResponseHeaders().put(Headers.ACCEPT_ENCODING, "utf-8");
             String[] urlArgs;
             String url = exchange.getRequestURI();
             if (url.equals("/")) {

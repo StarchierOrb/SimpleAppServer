@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 public class MainHandler implements HttpHandler {
     private final Logger LOGGER = LogManager.getLogger(this.getClass().getName());
     @Override
-    public void handleRequest(HttpServerExchange exchange) throws Exception {
+    public void handleRequest(HttpServerExchange exchange) {
         exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/html");
         /*
         InputStream inputStream = ServerMain.class.getResourceAsStream("/panel/model.html");
@@ -22,7 +22,10 @@ public class MainHandler implements HttpHandler {
         String pageText = "null";
         String url = exchange.getRequestURI().replaceFirst("/", "");
         try {
-            if(url.equalsIgnoreCase("") || url.contains("index")) {
+            if(url.equalsIgnoreCase("") || url.replace("/", "").split("\\.")[0].equalsIgnoreCase("index")) {
+                if(!url.replace("index", "").replace("/", "").equalsIgnoreCase("")) {
+                    exchange.setRequestURI("/");
+                }
                 pageText = WebPagesManager.getPage("index.json").getHtml();
             } else {
                 pageText = WebPagesManager.getPage(url).getHtml();

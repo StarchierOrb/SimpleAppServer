@@ -1,0 +1,44 @@
+{
+  "type": "page",
+  "title": "欢迎来到后台管理系统",
+  "body": [
+    {
+      "type": "image",
+      "enlargeAble": false,
+      "thumbMode": "cover",
+      "originalSrc": "",
+      "defaultImage": "https://www.hualigs.cn/image/609a78047fcd8.jpg",
+      "showDimensions": false,
+      "className": "w-xl p-lg r",
+      "thumbRatio": "1:1"
+    },
+    {
+      "type": "images"
+    },
+    {
+      "type": "tpl",
+      "tpl": "<img src=\"https://www.hualigs.cn/image/609a78047fcd8.jpg\">asa</img>",
+      "inline": false,
+      "className": "b-a w-full"
+    }
+  ],
+  "messages": {
+  },
+  "subTitle": "",
+  "remark": "",
+  "toolbar": [
+    {
+      "type": "button",
+      "label": "登录",
+      "actionType": "dialog",
+      "dialog": {
+        "title": "系统提示",
+        "body": "对你点击了"
+      },
+      "visible": "",
+      "level": "success",
+      "block": false
+    }
+  ],
+  "initApi": ""
+}

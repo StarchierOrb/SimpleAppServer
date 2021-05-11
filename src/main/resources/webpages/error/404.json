@@ -1,0 +1,37 @@
+{
+  "type": "page",
+  "title": "错误 404",
+  "body": [
+    {
+      "type": "alert",
+      "body": [
+        {
+          "type": "tpl",
+          "tpl": "<h1 class=\"fa-info-circle\">HTTP 404 错误</h1>\n<p>&nbsp;</p>\n<h3><span style=\"color: #000000;\">当前是个非法的请求，请检查浏览器地址是否正确。</span></h3>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>",
+          "inline": false
+        },
+        {
+          "type": "button",
+          "label": "返回",
+          "actionType": "link",
+          "dialog": {
+            "title": "系统提示",
+            "body": "对你点击了"
+          },
+          "size": "lg",
+          "level": "success",
+          "block": true,
+          "icon": "fa fa-undo",
+          "tooltip": "回到主页",
+          "tooltipPlacement": "bottom",
+          "link": "/index"
+        }
+      ],
+      "level": "warning",
+      "className": "rounded-xl b-info r bg-warning text-white"
+    }
+  ],
+  "messages": {},
+  "subTitle": "你当前请求的页面非法",
+  "remark": "该页面不存在，请检查。"
+}

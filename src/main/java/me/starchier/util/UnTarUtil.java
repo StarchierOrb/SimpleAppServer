@@ -63,7 +63,7 @@ public class UnTarUtil {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.warn("检查文件时发生错误: ", e);
             }
         }
     }

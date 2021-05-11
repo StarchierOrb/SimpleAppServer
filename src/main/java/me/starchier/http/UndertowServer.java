@@ -53,7 +53,12 @@ public class UndertowServer extends Thread {
                     .addHttpListener(config.getInt("manage-panel.port"), config.getString("manage-panel.host"))
                     .setHandler(new InitHandler())
                     .build();
-            server.start();
+            try {
+                server.start();
+            } catch (Exception e) {
+                LOGGER.fatal("启动HTTP服务失败： ", e);
+                System.exit(39);
+            }
             STATE = true;
             LOGGER.info("后台管理系统已启动，可用以下链接访问： http://" + config.getString("manage-panel.host") + ":" + config.getInt("manage-panel.port"));
         } else {
