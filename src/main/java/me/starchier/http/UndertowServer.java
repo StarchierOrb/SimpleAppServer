@@ -26,12 +26,12 @@ public class UndertowServer extends Thread {
         if(ServerMain.isHttpEnabled) {
             webTitle = " - " + config.getString("manage-panel.web-title", "后台管理系统");
             //加载网页资源
-            LOGGER.info("正在加载后台管理服务资源...");
-
+            LOGGER.info("正在注册并加载后台管理服务资源至内存...");
+            WebPagesManager.registerInitPages();
             //下载文件
             try {
                 ResourceManager.dropResources();
-                if(new File(destPath + File.separator + "sdk").listFiles().length==0) {
+                if(new File(destPath + File.separator + "sdk").listFiles().length == 0) {
                     File src = new File(srcPath);
                     if(src.exists()) {
                         src.delete();

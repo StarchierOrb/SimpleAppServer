@@ -11,9 +11,11 @@ import java.io.InputStreamReader;
 public class JsonTextReader {
     private final String jsonText;
     private final String title;
+    private final String resourceName;
     private final Logger LOGGER = LogManager.getLogger(this.getClass().getName());
     public JsonTextReader(String resourceName, String title) {
         this.title = title;
+        this.resourceName = resourceName;
         InputStream inputStream = this.getClass().getResourceAsStream("/webpages/" + resourceName);
         BufferedReader bufferedReader = null;
         try {
@@ -34,5 +36,13 @@ public class JsonTextReader {
     }
     public String getJsonText() {
         return jsonText;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getResourceName() {
+        return resourceName;
     }
 }

@@ -1,5 +1,6 @@
 package me.starchier.http;
 
+import me.starchier.json.JsonTextReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,7 +12,9 @@ import java.io.InputStreamReader;
 public class PageHandler {
     private final Logger LOGGER = LogManager.getLogger(this.getClass().getName());
     private final String htmlText;
-    public PageHandler(String title, String text) {
+    private final String resourceName;
+    public PageHandler(JsonTextReader jsonTextReader) {
+        this.resourceName = jsonTextReader.getResourceName();
         InputStream inputStream = this.getClass().getResourceAsStream("/panel/model.html");
         BufferedReader bufferedReader = null;
         try {
@@ -28,9 +31,13 @@ public class PageHandler {
         } catch (IOException e) {
             LOGGER.error("读取资源文件时发生错误：", e);
         }
-        htmlText = sb.toString().replace("%%TITLE_TO_BE_REPLACED%%", title).replace("%%JSON_TO_BE_REPLACE%%", text);
+        htmlText = sb.toString().replace("%%TITLE_TO_BE_REPLACED%%", jsonTextReader.getTitle()).replace("%%JSON_TO_BE_REPLACE%%", jsonTextReader.getJsonText());
     }
     public String getHtml() {
         return htmlText;
+    }
+
+    public String getResourceName() {
+        return resourceName;
     }
 }
