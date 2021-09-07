@@ -1,6 +1,7 @@
-package me.starchier.command;
+package me.starchier.command.core;
 
 import me.starchier.api.command.CommandExecutor;
+import me.starchier.command.*;
 import me.starchier.command.core.CommandRegister;
 
 import java.util.Arrays;
@@ -14,6 +15,7 @@ public class CommandRegistry {
                 new ClientList("list"),
                 new Status("status"),
                 new DataSender("send"),
+                new TestUsers("gentest"),
                 new ReloadConfiguration("reload"),
                 new CommandExecutor("print") {
                     @Override

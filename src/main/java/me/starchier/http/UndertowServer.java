@@ -23,7 +23,7 @@ public class UndertowServer extends Thread {
     @Override
     public void run() {
         YamlFile config = YamlConfiguration.getConfig();
-        if(ServerMain.isHttpEnabled) {
+        if(ServerMain.isPanelEnabled) {
             webTitle = " - " + config.getString("manage-panel.web-title", "后台管理系统");
             //加载网页资源
             LOGGER.info("正在注册并加载后台管理服务资源至内存...");
@@ -48,23 +48,22 @@ public class UndertowServer extends Thread {
                 LOGGER.fatal("处理资源文件出错： ", e);
                 System.exit(21);
             }
-            LOGGER.info("正在启动后台管理系统HTTP服务...");
-            server = Undertow.builder()
-                    .addHttpListener(config.getInt("manage-panel.port"), config.getString("manage-panel.host"))
-                    .setHandler(new InitHandler())
-                    .build();
-            try {
-                server.start();
-            } catch (Exception e) {
-                LOGGER.fatal("启动HTTP服务失败： ", e);
-                System.exit(39);
-            }
-            STATE = true;
-            LOGGER.info("后台管理系统已启动，可用以下链接访问： http://" + config.getString("manage-panel.host") + ":" + config.getInt("manage-panel.port"));
-        } else {
-            LOGGER.info("未开启用户后台管理系统，服务端将不会启动HTTP服务。");
-            STATE = true;
-            this.interrupt();
+        }
+        LOGGER.info("正在启动HTTP服务...");
+        server = Undertow.builder()
+                .addHttpListener(config.getInt("http-services.port"), config.getString("http-services.host"))
+                .setHandler(new InitHandler())
+                .build();
+        try {
+            server.start();
+        } catch (Exception e) {
+            LOGGER.fatal("启动HTTP服务失败： ", e);
+            System.exit(39);
+        }
+        STATE = true;
+        LOGGER.info("Http服务已启动，API链接： http://" + config.getString("http-services.host") + ":" + config.getInt("http-services.port") + "/services/");
+        if (ServerMain.isPanelEnabled) {
+            LOGGER.info("后台管理服务已启动，可用以下链接访问： http://" + config.getString("http-services.host") + ":" + config.getInt("http-services.port"));
         }
     }
 }

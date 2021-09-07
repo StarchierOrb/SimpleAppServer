@@ -1,10 +1,11 @@
 package me.starchier;
 
-import me.starchier.command.CommandRegistry;
+import me.starchier.command.core.CommandRegistry;
 import me.starchier.command.core.CommandBase;
 import me.starchier.command.core.CommandRegister;
 import me.starchier.configuration.YamlConfiguration;
 import me.starchier.http.UndertowServer;
+import me.starchier.storage.UserDataManager;
 import me.starchier.util.FileDrop;
 import me.starchier.util.VersionCheck;
 import me.starchier.websocket.SocketServer;
@@ -26,12 +27,16 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 public class ServerMain {
-    public static final String VERSION = "1.0.137-DEV-SNAPSHOT";
+    public static final String VERSION = "1.0.151-DEV-SNAPSHOT";
     public static final String NAME = "SmartApp-Server";
     private static final Logger getLogger = LogManager.getLogger("ServerMain");
     private static final String prompt = ">";
+    public static final String PATH = System.getProperty("user.dir") + File.separator;
     public static final File config = new File(System.getProperty("user.dir") + File.separator + "config.yml");
-    public static boolean isHttpEnabled;
+    public static final boolean isHttpEnabled = true;
+    public static String storageType;
+    public static boolean isPanelEnabled;
+    public static boolean isWSEnabled;
     public static SocketServer socketServer;
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
@@ -66,9 +71,11 @@ public class ServerMain {
             getLogger.fatal("服务端将会关闭，请检查配置文件。");
             return;
         }
+        storageType = cfg.getString("storage-type", "flat");
+        UserDataManager.initData();
         //启动HTTP后台管理系统服务
         getLogger.info("正在准备HTTP服务...");
-        isHttpEnabled = cfg.getBoolean("manage-panel.enabled", true);
+        isPanelEnabled = cfg.getBoolean("manage-panel.enabled", true);
         new UndertowServer().start();
         while(!UndertowServer.STATE) {
             try {
@@ -79,16 +86,19 @@ public class ServerMain {
             }
         }
         //启动WebSocket
-        getLogger.info("正在启动WebSocket服务端...");
-        socketServer = new SocketServer(cfg.getString("server-ip"), cfg.getInt("port"));
-        socketServer.setConnectionLostTimeout(15);
-        new SocketThread().start();
-        while (!SocketThread.STATE) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                getLogger.error("启动服务端时发生错误: ", e);
-                System.exit(11);
+        isWSEnabled = cfg.getBoolean("enable-websocket", false);
+        if (isWSEnabled) {
+            getLogger.info("正在启动WebSocket服务端...");
+            socketServer = new SocketServer(cfg.getString("server-ip"), cfg.getInt("port"));
+            socketServer.setConnectionLostTimeout(15);
+            new SocketThread().start();
+            while (!SocketThread.STATE) {
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    getLogger.error("启动服务端时发生错误: ", e);
+                    System.exit(11);
+                }
             }
         }
         long finishTime = System.currentTimeMillis();
@@ -123,18 +133,20 @@ public class ServerMain {
         }
     }
     public static void stop() {
-        getLogger.info("正在断开所有与客户端的连接...");
-        for(WebSocket client : socketServer.getConnections()) {
-            getLogger.info("正在断开客户端 " + client.getRemoteSocketAddress().getAddress() + ":" + client.getRemoteSocketAddress().getPort());
-            client.closeConnection(CloseFrame.SERVICE_RESTART, "服务器已关闭。");
+        if (isWSEnabled) {
+            getLogger.info("正在断开所有与客户端的连接...");
+            for(WebSocket client : socketServer.getConnections()) {
+                getLogger.info("正在断开客户端 " + client.getRemoteSocketAddress().getAddress() + ":" + client.getRemoteSocketAddress().getPort());
+                client.closeConnection(CloseFrame.SERVICE_RESTART, "服务器已关闭。");
+            }
+            getLogger.info("正在结束WebSocket服务端...");
+            try {
+                socketServer.stop(3000);
+            } catch (Exception interruptedException) {
+                getLogger.error("结束WS服务端时发生错误：", interruptedException);
+            }
         }
-        getLogger.info("正在结束WebSocket服务端...");
-        try {
-            socketServer.stop(3000);
-        } catch (Exception interruptedException) {
-            getLogger.error("结束WS服务端时发生错误：", interruptedException);
-        }
-        if(isHttpEnabled) {
+        if(isHttpEnabled || isPanelEnabled) {
             getLogger.info("正在结束HTTP服务...");
             UndertowServer.server.stop();
         }

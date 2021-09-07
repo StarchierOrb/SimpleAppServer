@@ -1,7 +1,7 @@
 package me.starchier.websocket;
 
 import me.starchier.json.JsonStatic;
-import me.starchier.json.objects.MessageBack;
+import me.starchier.json.objects.SimpleBackObj;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.java_websocket.WebSocket;
@@ -37,7 +37,7 @@ public class SocketServer extends WebSocketServer {
         if(message.contains("\"actionType\": ")) {
 
         } else {
-            MessageBack msg = new MessageBack(0, "数据包格式错误，即将中断连接。");
+            SimpleBackObj msg = new SimpleBackObj(0, "数据包格式错误，即将中断连接。");
             conn.send(JsonStatic.gson.toJson(msg));
             conn.close(CloseFrame.UNEXPECTED_CONDITION, "数据包格式错误");
         }

@@ -1,6 +1,7 @@
 package me.starchier.http;
 
 import io.undertow.util.StatusCodes;
+import me.starchier.ServerMain;
 import me.starchier.json.JsonTextReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,8 +35,10 @@ public class WebPagesManager {
 
     //This should be invoked on server start.
     public static void registerInitPages() {
-        for(JsonTextReader jsonFile : list) {
-            registerPage(jsonFile);
+        if (ServerMain.isPanelEnabled) {
+            for(JsonTextReader jsonFile : list) {
+                registerPage(jsonFile);
+            }
         }
         for(JsonTextReader jsonFile : errorList) {
             registerErrorPage(jsonFile);

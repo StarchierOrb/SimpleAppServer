@@ -4,6 +4,7 @@ import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.Headers;
 import io.undertow.util.Methods;
+import me.starchier.http.data.APIHandler;
 
 public class InitHandler implements HttpHandler {
     @Override
@@ -23,6 +24,10 @@ public class InitHandler implements HttpHandler {
                     }
                     case "login": {
                         new LoginHandler().handleRequest(exchange);
+                        return;
+                    }
+                    case "services": {
+                        new APIHandler().handleRequest(exchange);
                         return;
                     }
                     case "static": {
