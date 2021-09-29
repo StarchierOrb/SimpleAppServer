@@ -50,6 +50,10 @@ public class UndertowServer extends Thread {
             }
         }
         LOGGER.info("正在启动HTTP服务...");
+        File webPath = new File(ServerMain.ROOT_PATH + "webroot");
+        if (!webPath.isDirectory() || !webPath.exists()) {
+            webPath.mkdirs();
+        }
         server = Undertow.builder()
                 .addHttpListener(config.getInt("http-services.port"), config.getString("http-services.host"))
                 .setHandler(new InitHandler())

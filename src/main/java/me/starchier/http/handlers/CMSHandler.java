@@ -8,7 +8,7 @@ import me.starchier.http.WebPagesManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class MainHandler implements HttpHandler {
+public class CMSHandler implements HttpHandler {
     private final Logger LOGGER = LogManager.getLogger(this.getClass().getName());
     @Override
     public void handleRequest(HttpServerExchange exchange) {
@@ -20,7 +20,7 @@ public class MainHandler implements HttpHandler {
         exchange.getResponseSender().send(new String(byteArr));
          */
         String pageText = "null";
-        String url = exchange.getRequestURI().replaceFirst("/", "");
+        String url = exchange.getRequestURI().replaceFirst("/cms/", "");
         try {
             if(url.equalsIgnoreCase("") || url.replace("/", "").split("\\.")[0].equalsIgnoreCase("index")) {
                 if(!url.replace("index", "").replace("/", "").equalsIgnoreCase("")) {

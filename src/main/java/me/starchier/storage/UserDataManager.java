@@ -10,14 +10,13 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDataManager {
     private static final Logger logger = LogManager.getLogger(UserDataManager.class.getName());
     private static List<UserModel> users = new ArrayList<>();
-    private static final File userDir = new File(ServerMain.PATH + "users");
+    private static final File userDir = new File(ServerMain.ROOT_PATH + "users");
 
     public static void initData() {
         logger.info("正在载入用户数据...");
@@ -53,7 +52,7 @@ public class UserDataManager {
 
     public static void saveUser(UserModel user) {
         try {
-            File file = new File(ServerMain.PATH + "users" + File.separator + user.getUuid() + ".json");
+            File file = new File(ServerMain.ROOT_PATH + "users" + File.separator + user.getUuid() + ".json");
             file.createNewFile();
             try (
                     FileWriter writer = new FileWriter(file);

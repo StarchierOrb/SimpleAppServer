@@ -6,5 +6,6 @@ http-services:
   port: 80
   host: '0.0.0.0'
 manage-panel:
-  enabled: true
+  #Temporary disabled.
+  #enabled: true
   web-title: '服务器后台管理系统'

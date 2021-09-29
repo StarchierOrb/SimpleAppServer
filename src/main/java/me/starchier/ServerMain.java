@@ -27,15 +27,15 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 public class ServerMain {
-    public static final String VERSION = "1.0.151-DEV-SNAPSHOT";
+    public static final String VERSION = "1.0.154-DEV-SNAPSHOT";
     public static final String NAME = "SmartApp-Server";
     private static final Logger getLogger = LogManager.getLogger("ServerMain");
     private static final String prompt = ">";
-    public static final String PATH = System.getProperty("user.dir") + File.separator;
+    public static final String ROOT_PATH = System.getProperty("user.dir") + File.separator;
     public static final File config = new File(System.getProperty("user.dir") + File.separator + "config.yml");
     public static final boolean isHttpEnabled = true;
     public static String storageType;
-    public static boolean isPanelEnabled;
+    public static boolean isPanelEnabled = true;
     public static boolean isWSEnabled;
     public static SocketServer socketServer;
     public static void main(String[] args) {
@@ -75,7 +75,7 @@ public class ServerMain {
         UserDataManager.initData();
         //启动HTTP后台管理系统服务
         getLogger.info("正在准备HTTP服务...");
-        isPanelEnabled = cfg.getBoolean("manage-panel.enabled", true);
+        //isPanelEnabled = cfg.getBoolean("manage-panel.enabled", true);
         new UndertowServer().start();
         while(!UndertowServer.STATE) {
             try {
